@@ -10,9 +10,9 @@ import {
     Image, 
     Platform } from "react-native";
 import { Formik } from "formik";
-import * as yup from 'yup';
 
 //validation
+import * as yup from 'yup';
 const formSchama = yup.object({
     email: yup.string().email().required(),
     password: yup.string().required().min(6)
@@ -32,6 +32,7 @@ const LoginScreen = navData => {
                         password: ""
                     }}
 
+                    //check validation 
                     validationSchema={formSchama}
 
                     onSubmit={(values) => {
@@ -54,8 +55,9 @@ const LoginScreen = navData => {
                                     keyboardType="email-address"
                                     onChangeText={props.handleChange("email")}
                                     value={props.values.email}
-                                    
+                                    onBlur={props.handleBlur('email')}
                                 />
+                                <Text style={styles.error}>{props.touched.email && props.errors.email}</Text>
 
 
                                 <TextInput
@@ -65,8 +67,9 @@ const LoginScreen = navData => {
                                     secureTextEntry={true}
                                     onChangeText={props.handleChange("password")}
                                     value={props.values.password}
-                                    
+                                    onBlur={props.handleBlur('password')}
                                 />
+                                <Text style={styles.error}>{props.touched.password && props.errors.password}</Text>
 
 
                                 <TouchableOpacity style={styles.button} onPress={props.handleSubmit}>
