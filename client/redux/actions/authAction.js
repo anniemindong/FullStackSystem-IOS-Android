@@ -6,41 +6,49 @@ export const LOGIN_USER_FAIL = 'LOGIN_USER_FAIL';
 const BASE_URL = 'http://192.168.13.166:3000';
 
 export const registerUser = (authData) => {
-    const {fullName, email, password} = authData;
+    const { fullName, email, password } = authData;
 
     return async dispatch => {
 
         //logic to make POST request to register
-        fetch(`${BASE_URL}/api/users/register`, {
+        const result = await fetch(`${BASE_URL}/api/users/register`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
             },
-            body:JSON.stringify({
+            body: JSON.stringify({
                 fullName,
                 email,
                 password
             })
         })
 
-        const resultData = result.json();
+        const resultData = await result.json();
         console.log(resultData);
+        
+        if(resultData.success) {
+            dispatch({
+                type: REGISTER_USER_SUCCESS,
+                payload: resultData
+            });
+        } else {
+            dispatch({
+                type: REGISTER_USER_FAIL
+            });
+        }
 
-        diapath({
-            type:REGISTER_USER_SUCCESS,
-            payload: 1
-        });
+        return resultData;
     }
 }
 export const loginUser = (authData) => {
-    const {email, password} = authData;
+    const { email, password } = authData;
 
     return async dispatch => {
 
         //logic to make POST request to login
 
-        diapath({
-            type:LOGIN_USER_SUCCESS,
+        dispatch({
+            type: LOGIN_USER_SUCCESS,
             payload: 1
         });
     }

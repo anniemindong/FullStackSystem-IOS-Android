@@ -1,30 +1,31 @@
 import React from "react";
-import { 
-    StyleSheet, 
-    View, 
-    Text, 
-    ScrollView, 
-    KeyboardAvoidingView, 
-    TextInput, 
-    TouchableOpacity, 
-    Image, 
-    Platform } from "react-native";
+import {
+    StyleSheet,
+    View,
+    Text,
+    ScrollView,
+    KeyboardAvoidingView,
+    TextInput,
+    TouchableOpacity,
+    Image,
+    Platform
+} from "react-native";
 import { Formik } from "formik";
 
 
 //4#:after build actions and reducers, import to RegisterScreen
-import {useDispatch} from 'react-redux';
-import * as authAction from  '../redux/actions/authAction';
+import { useDispatch } from "react-redux";
+import * as authAction from "../redux/actions/authAction";
 
 //validation
-import * as yup from 'yup';
-const formSchama = yup.object({
-    fullName:yup.string().required().min(3),
+import * as yup from "yup";
+const formSchema = yup.object({
+    fullName: yup.string().required().min(3),
     email: yup.string().email().required(),
     password: yup.string().required().min(6)
 })
 
-const RegisterScreen = navData => {
+const RegisterScreen = (navData) => {
     //4#:
     const dispatch = useDispatch();
 
@@ -33,91 +34,88 @@ const RegisterScreen = navData => {
             hehavior={Platform.OS === "ios" ? "padding" : "height"}
             style={{ flex: 1 }}
         >
-            <ScrollView>
-                <Formik
-                    initialValues={{
-                        fullName: "",
-                        email: "",
-                        password: "",
-                    }}
 
-                    validationSchema={formSchama}
-
-                    onSubmit={(values) => {                       
-                        dispatch(authAction.registerUser(values))
+            <Formik
+                initialValues={{
+                    fullName: "",
+                    email: "",
+                    password: "",
+                }}
+                validationSchema={formSchema}
+                onSubmit={(values) => {
+                    dispatch(authAction.registerUser(values))
                         .then(result => {
-                            if(result.success) {
-                              navData.navigation.navigate("Home");
+                            if (result.success) {
+                                navData.navigation.navigate("Home");
                             } else {
-                              Alert.alert('Registration failed. Try Again')
-                            }   
-                          })
-                          .catch(err => console.log(err))                       
-                    }}
-                >
-                    {(props) => (
-                        <View style={styles.container}>
+                                Alert.alert('Registration failed. Try Again')
+                            }
+                        })
+                        .catch(err => console.log(err))
+                }}
+            >
+                {(props) => (
+                    <View style={styles.container}>
 
-                            <View style={styles.logo}>
-                                <Image source={require('../assets/images/logo.png')} style={styles.image} />
-                            </View>
+                        <View style={styles.logo}>
+                            <Image source={require('../assets/images/logo.png')} style={styles.image} />
+                        </View>
 
-                            <View>
-                                <TextInput
-                                    style={styles.input}
-                                    placeholder="Full Name "
-                                    placeholderTextColor="#fff"
-                                    onChangeText={props.handleChange("fullName")}
-                                    value={props.values.fullName}
-                                    onBlur={props.handleBlur('fullName')}
-                                />
-                                <Text style={styles.error}>{props.touched.fullName && props.errors.fullName}</Text>
+                        <View>
+                            <TextInput
+                                style={styles.input}
+                                placeholder="Full Name "
+                                placeholderTextColor="#fff"
+                                onChangeText={props.handleChange("fullName")}
+                                value={props.values.fullName}
+                                onBlur={props.handleBlur('fullName')}
+                            />
+                            <Text style={styles.error}>{props.touched.fullName && props.errors.fullName}</Text>
 
-                                <TextInput
-                                    style={styles.input}
-                                    placeholder="Email"
-                                    placeholderTextColor="#fff"
-                                    keyboardType="email-address"
-                                    onChangeText={props.handleChange("email")}
-                                    value={props.values.email}
-                                    onBlur={props.handleBlur('email')}
-                                />
-                                <Text style={styles.error}>{props.touched.email && props.errors.email}</Text>
+                            <TextInput
+                                style={styles.input}
+                                placeholder="Email"
+                                placeholderTextColor="#fff"
+                                keyboardType="email-address"
+                                onChangeText={props.handleChange("email")}
+                                value={props.values.email}
+                                onBlur={props.handleBlur('email')}
+                            />
+                            <Text style={styles.error}>{props.touched.email && props.errors.email}</Text>
 
-                                <TextInput
-                                    style={styles.input}
-                                    placeholder="Password"
-                                    placeholderTextColor="#fff"
-                                    secureTextEntry={true}
-                                    onChangeText={props.handleChange("password")}
-                                    value={props.values.password}
-                                    onBlur={props.handleBlur('password')}
-                                />
-                                <Text style={styles.error}>{props.touched.password && props.errors.password}</Text>
+                            <TextInput
+                                style={styles.input}
+                                placeholder="Password"
+                                placeholderTextColor="#fff"
+                                secureTextEntry={true}
+                                onChangeText={props.handleChange("password")}
+                                value={props.values.password}
+                                onBlur={props.handleBlur('password')}
+                            />
+                            <Text style={styles.error}>{props.touched.password && props.errors.password}</Text>
 
-                                <TouchableOpacity style={styles.button} onPress={props.handleSubmit}>
-                                    <Text style={styles.buttonText}>Register</Text>
-                                </TouchableOpacity>
+                            <TouchableOpacity style={styles.button} onPress={props.handleSubmit}>
+                                <Text style={styles.buttonText}>Register</Text>
+                            </TouchableOpacity>
 
-                                <View style={styles.registerContainer}>
-                                    <Text style={styles.registerText}>
-                                        Have an account?
-                                    </Text> 
+                            <View style={styles.registerContainer}>
+                                <Text style={styles.registerText}>
+                                    Have an account?
+                                    </Text>
 
-                                    <TouchableOpacity onPress={()=>navData.navigation.navigate('Login')}>
-                                        <Text style={styles.registerButton}>
-                                            Login
+                                <TouchableOpacity onPress={() => navData.navigation.navigate('Login')}>
+                                    <Text style={styles.registerButton}>
+                                        Login
                                         </Text>
-                                    </TouchableOpacity>
-                                </View>
-
+                                </TouchableOpacity>
                             </View>
 
                         </View>
-                    )}
 
-                </Formik>
-            </ScrollView>
+                    </View>
+                )}
+
+            </Formik>
         </KeyboardAvoidingView>
     );
 }

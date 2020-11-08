@@ -5,7 +5,7 @@ const HomeScreen = () => {
 
     return(
         <View>
-            <Text>Home Screen</Text>
+            <Text>Welcome to the home screen!</Text>
         </View>
     );
 }
