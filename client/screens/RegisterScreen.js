@@ -1,4 +1,4 @@
-import React from 'react';
+import React from "react";
 import { 
     StyleSheet, 
     View, 
@@ -11,6 +11,11 @@ import {
     Platform } from "react-native";
 import { Formik } from "formik";
 
+
+//4#:after build actions and reducers, import to RegisterScreen
+import {useDispatch} from 'react-redux';
+import * as authAction from  '../redux/actions/authAction';
+
 //validation
 import * as yup from 'yup';
 const formSchama = yup.object({
@@ -20,6 +25,8 @@ const formSchama = yup.object({
 })
 
 const RegisterScreen = navData => {
+    //4#:
+    const dispatch = useDispatch();
 
     return (
         <KeyboardAvoidingView
@@ -33,11 +40,19 @@ const RegisterScreen = navData => {
                         email: "",
                         password: "",
                     }}
+
                     validationSchema={formSchama}
 
-                    onSubmit={(values) => {
-                        console.log(values);
-                        navData.navigation.navigate('Home')
+                    onSubmit={(values) => {                       
+                        dispatch(authAction.registerUser(values))
+                        .then(result => {
+                            if(result.success) {
+                              navData.navigation.navigate("Home");
+                            } else {
+                              Alert.alert('Registration failed. Try Again')
+                            }   
+                          })
+                          .catch(err => console.log(err))                       
                     }}
                 >
                     {(props) => (
