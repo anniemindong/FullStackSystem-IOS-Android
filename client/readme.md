@@ -1,4 +1,4 @@
-# Client
+# Steps to build the frontend: Client
 ## Initialize Project
 ```
 expo init client
@@ -48,9 +48,18 @@ npm install
 expo start
 ```  
 ## create navigation folder
-creat AppNavigation.js
-## Loginscreen.js
-build form using formik, install yup for validation.
+create and build AppNavigation.js
+## screens
+### login screen
+build login form using formik, install yup for validation.Write the code.
 ```
 npm install formik yup
 ``` 
+
+### register screen
+Copy LoginScreen and paste, then change the code
+
+## After building the backend, come back to frontend
+```
+npm install redux react-redux redux-thunk redux-devtools-extension
+```
